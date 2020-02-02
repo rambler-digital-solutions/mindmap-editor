@@ -8,11 +8,12 @@ import update from "./update";
 import {expand, collapse, expandAll, collapseAll} from "./expand-collapse";
 import {initiateDrag, dragStart, dragEnd, dragged, endDrag} from "./drag";
 import updateTempConnector from './updateTempConnector.js';
-import tableCreate from './tableCreate.js';
+import {tableCreate, saveFromTable} from './tableCreate.js';
 import visit from "./visit";
 import centerNode from "./centerNode";
 import removeFlags from "./removeFlags";
 import updateMaxLabelLength from "./updateMaxLabelLength";
+import * as _ from "underscore";
 
 /**
  * Default config.
@@ -192,6 +193,7 @@ class MindMapRender {
                     action: (el, d, i) => {
                         document.querySelector('.bg-modal').style.display = 'flex';
                         this.tableCreate(d.attributes);
+                        this.nodeForEdit = d;
                     }
                 },
                 {
@@ -306,7 +308,7 @@ Object.assign(MindMapRender.prototype, {
     expand, collapse, expandAll, collapseAll,
     initiateDrag, dragStart, dragEnd, dragged, endDrag,
     updateTempConnector,
-    tableCreate,
+    tableCreate, saveFromTable,
     visit,
     centerNode,
     removeFlags,

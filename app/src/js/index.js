@@ -119,5 +119,7 @@ btnShowAttributes.addEventListener('click', () => {
 });
 
 document.getElementById('close-icon').addEventListener('click', () => {
+    mmRender.nodeForEdit.attributes = mmRender.saveFromTable();
+    mmRender.nodeForEdit = null;
     document.querySelector('.bg-modal').style.display = 'none';
 });

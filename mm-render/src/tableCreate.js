@@ -1,4 +1,4 @@
-export default function tableCreate(attributes) {
+export function tableCreate(attributes) {
 
     let old_tbody = document.getElementsByTagName('tbody')[0];
     let new_tbody = document.createElement('tbody');
@@ -23,4 +23,19 @@ export default function tableCreate(attributes) {
     });
 
     old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+}
+
+export function saveFromTable() {
+    let attributes_array = [];
+    let trs = document.querySelectorAll('table > tbody > tr');
+
+    trs.forEach(function(tds){
+        let temp_array = [];
+        tds.querySelectorAll('td').forEach(function(element){
+            temp_array.push(element.textContent);
+        });
+        attributes_array.push(temp_array);
+    });
+
+    return attributes_array;
 }

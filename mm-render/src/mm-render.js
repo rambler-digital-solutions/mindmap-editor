@@ -207,7 +207,7 @@ class MindMapRender {
                     title: 'Edit attributes',
                     action: (el, d, i) => {
                         document.querySelector('.bg-modal').style.display = 'flex';
-                        this.attributesTable.tableCreate(d);
+                        this.attributesTable.tableCreate(d, () => this.update(this.root));
                     }
                 },
             ];

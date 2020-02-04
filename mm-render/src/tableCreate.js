@@ -1,6 +1,7 @@
 export default class AttributesTable {
     constructor() {
         this.nodeForEdit = null;
+        this.callback = null;
         this.body = document.getElementsByTagName('body')[0];
 
         let bgModal = document.createElement('div');
@@ -34,10 +35,12 @@ export default class AttributesTable {
         document.getElementById('close-icon').addEventListener('click', () => {
             this.saveFromTable();
             document.querySelector('.bg-modal').style.display = 'none';
+            this.callback();
+            this.callback = null;
         });
     }
 
-    tableCreate(nodeForEdit) {
+    tableCreate(nodeForEdit, callback) {
         let attributes = nodeForEdit.attributes;
         let new_tbody = document.createElement('tbody');
 
@@ -61,6 +64,7 @@ export default class AttributesTable {
         this.table_body.parentNode.replaceChild(new_tbody, this.table_body);
         this.table_body = new_tbody;
         this.nodeForEdit = nodeForEdit;
+        this.callback = callback;
     }
 
     saveFromTable() {

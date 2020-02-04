@@ -8,7 +8,7 @@ import update from "./update";
 import {expand, collapse, expandAll, collapseAll} from "./expand-collapse";
 import {initiateDrag, dragStart, dragEnd, dragged, endDrag} from "./drag";
 import updateTempConnector from './updateTempConnector.js';
-import {tableCreate, saveFromTable} from './tableCreate.js';
+import AttributesTable from './tableCreate.js';
 import visit from "./visit";
 import centerNode from "./centerNode";
 import removeFlags from "./removeFlags";
@@ -34,6 +34,7 @@ class MindMapRender {
         this.setConfig(config);
         this.defaultRoot = new Node('New node', null);
         this.reader = new Reader();
+        this.attributesTable = new AttributesTable();
     }
 
     open(file = null) {
@@ -124,6 +125,20 @@ class MindMapRender {
         this.menu =
             [
                 {
+                    title: '✔️ Passed️',
+                    action: (el, d, i) => {
+                        d.isTested = !d.isTested;
+                        this.update(d);
+                    }
+                },
+                {
+                    title: '❌ Bug',
+                    action: (el, d, i) => {
+                        d.isBug = !d.isBug;
+                        this.update(d);
+                    }
+                },
+                {
                     title: "Rename",
                     action: (elm, d, i) => {
                         let result = prompt('Change the name of the node', d.name);
@@ -192,22 +207,7 @@ class MindMapRender {
                     title: 'Edit attributes',
                     action: (el, d, i) => {
                         document.querySelector('.bg-modal').style.display = 'flex';
-                        this.tableCreate(d.attributes);
-                        this.nodeForEdit = d;
-                    }
-                },
-                {
-                    title: '✔️ Passed️',
-                    action: (el, d, i) => {
-                        d.isTested = !d.isTested;
-                        this.update(d);
-                    }
-                },
-                {
-                    title: '❌ Bug',
-                    action: (el, d, i) => {
-                        d.isBug = !d.isBug;
-                        this.update(d);
+                        this.attributesTable.tableCreate(d);
                     }
                 },
             ];
@@ -308,7 +308,6 @@ Object.assign(MindMapRender.prototype, {
     expand, collapse, expandAll, collapseAll,
     initiateDrag, dragStart, dragEnd, dragged, endDrag,
     updateTempConnector,
-    tableCreate, saveFromTable,
     visit,
     centerNode,
     removeFlags,

@@ -57,7 +57,7 @@ btnSaveXML.addEventListener('click', () => {
 });
 
 btnExpandAll.addEventListener('click', () => {
-    mmRender.expandAll();
+    mmRender.expandAllNodes();
 });
 
 btnCollapseAll.addEventListener('click', () => {

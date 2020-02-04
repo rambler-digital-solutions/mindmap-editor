@@ -172,9 +172,9 @@ class MindMapRender {
                             currentNode[0].children.y = d.y0;
                         }
 
-                        this.update(this.root);
                         this.expand(currentNode);
                         this.updateMaxLabelLength();
+                        this.update(this.root);
                     }
                 },
                 {
@@ -298,6 +298,12 @@ class MindMapRender {
 
     toggleAttributes() {
         this.showAttributes = !this.showAttributes;
+        this.update(this.root);
+    }
+
+    expandAllNodes() {
+        this.expandAll();
+        this.updateMaxLabelLength();
         this.update(this.root);
     }
 }

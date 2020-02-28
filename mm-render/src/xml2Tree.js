@@ -1,7 +1,7 @@
 import ParseAttributes from "./parseAttributes";
 import Node from './node';
 
-export {readTextFile, arrayMapping, arrayToJSON, XMLToArray}; // список экспортируемых переменных
+export {readTextFile, arrayMapping, arrayToJSON, XMLToArray, nodesCount}; // список экспортируемых переменных
 
 let mapIcons = new Map(
     [
@@ -10,6 +10,8 @@ let mapIcons = new Map(
         ['button_cancel', '❌']
     ]
 );
+
+let nodesCount = 0;
 
 /**
  * Reads and returns content of the input file.
@@ -94,7 +96,7 @@ function arrayMapping(tagArray, impNodes, isAttributes) {
  * @param {array} parent - id of node's parent.
  */
 function objToJSON(tagArray, id, parent) {
-    let node = new Node(tagArray[id].attr['TEXT'], parent === false ? 'null' : parent.name);  // we create an empty object and save there all the relevant information about the node
+    let node = new Node(nodesCount++, tagArray[id].attr['TEXT'], parent === false ? 'null' : parent.name);  // we create an empty object and save there all the relevant information about the node
 
     let i = 0;
 

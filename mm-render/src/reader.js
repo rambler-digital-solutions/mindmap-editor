@@ -35,7 +35,7 @@ export default class Reader {
         let mapArray = Xml2Tree.arrayMapping(tagArray, this.secondLevelNodes, this.isAttributes);
         let treeData = Xml2Tree.arrayToJSON(mapArray);  // converts array into a JSON file
 
-        return treeData[0]['children'][0];
+        return [treeData[0]['children'][0], Xml2Tree.nodesCount];
     }
 
     readJson(flePath) {

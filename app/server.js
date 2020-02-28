@@ -4,9 +4,9 @@ const app = express();
 
 app.use(express.static('dist'));
 
-app.listen(3000, function () {
-    console.log('listening on port 3000');
-    console.log('Go to: http://localhost:3000/');
+app.listen(8080, function () {
+    console.log('listening on port 8080');
+    console.log('Go to: http://localhost:8080/');
 });
 
 nunjucks.configure('views', {

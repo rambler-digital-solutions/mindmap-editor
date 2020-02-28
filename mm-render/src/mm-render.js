@@ -32,7 +32,7 @@ class MindMapRender {
 
     constructor(config = []) {
         this.setConfig(config);
-        this.defaultRoot = new Node('New node', null);
+        this.defaultRoot = new Node(0, 'New node', null);
         this.reader = new Reader();
         this.attributesTable = new AttributesTable();
     }
@@ -40,9 +40,12 @@ class MindMapRender {
     open(file = null) {
         try {
             if (file) {
-                this.treeData = this.reader.getData(file);
+                [this.treeData, this.nodesCount] = this.reader.getData(file);
+                document.title = this.reader.fileName;
             } else {
                 this.treeData = this.defaultRoot;
+                this.nodesCount = 1;
+                document.title = 'New';
             }
             this.init();
         } catch (e) {
@@ -156,7 +159,7 @@ class MindMapRender {
                         if (!newNodeName) {
                             return;
                         }
-                        let newNode = new Node(newNodeName, d);
+                        let newNode = new Node(this.nodesCount++, newNodeName, d);
                         let currentNode = this.tree.nodes(d);
 
                         if (currentNode[0]._children != null) {
@@ -178,21 +181,21 @@ class MindMapRender {
                     }
                 },
                 {
-                    title: 'Delete a node',
+                    title: 'Remove node',
                     action: (elm, d, i) => {
-                        let delName = d.name;
+                        let nodeId = d.nodeId;
                         if (d.parent && d.parent.children) {
-                            let nodeToDelete = _.where(d.parent.children, {
-                                name: delName
+                            let nodeToRemove = _.where(d.parent.children, {
+                                nodeId: nodeId
                             });
-                            if (nodeToDelete) {
-                                if (nodeToDelete[0].children != null || nodeToDelete[0]._children != null) {
+                            if (nodeToRemove) {
+                                if (nodeToRemove[0].children != null || nodeToRemove[0]._children != null) {
                                     if (confirm('Deleting this node will delete all its children too! Proceed?')) {
-                                        d.parent.children = _.without(d.parent.children, nodeToDelete[0]);
+                                        d.parent.children = _.without(d.parent.children, nodeToRemove[0]);
                                         this.update(this.root);
                                     }
                                 } else {
-                                    d.parent.children = _.without(d.parent.children, nodeToDelete[0]);
+                                    d.parent.children = _.without(d.parent.children, nodeToRemove[0]);
                                 }
                             }
 
@@ -310,14 +313,14 @@ class MindMapRender {
 
 Object.assign(MindMapRender.prototype, {
     getTreeData,
-    update,
     expand, collapse, expandAll, collapseAll,
     initiateDrag, dragStart, dragEnd, dragged, endDrag,
-    updateTempConnector,
     visit,
     centerNode,
     removeFlags,
-    updateMaxLabelLength
+    updateMaxLabelLength,
+    update,
+    updateTempConnector,
 });
 
 export default MindMapRender;

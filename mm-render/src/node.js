@@ -1,5 +1,6 @@
 export default class Node {
-    constructor(name, parent) {
+    constructor(id, name, parent) {
+        this.nodeId = id;
         this.name = name;
         this.type = 'node';
         this.children = [];

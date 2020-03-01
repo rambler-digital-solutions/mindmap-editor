@@ -28,6 +28,13 @@ module.exports = {
                         name: '[name].[ext]',
                     },
                 },
+            },
+            {
+                test: /\.svg/,
+                use: {
+                    loader: 'svg-url-loader',
+                    options: {}
+                }
             }
         ]
     },

@@ -1,3 +1,5 @@
+import '../css/modal-style.css';
+
 import * as $ from 'jquery';
 import Node from './node';
 import IconsMap from './iconsMap';

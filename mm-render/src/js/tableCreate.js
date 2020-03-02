@@ -1,14 +1,14 @@
 export default class AttributesTable {
 
     constructor() {
-        this.attributeToHTML = (attr = ['', '']) => `
+        this.attributeToHTML = (id, attr = ['', '']) => `
         <td contenteditable class="single-line" data-input="true">${attr[0]}</td>
         <td contenteditable class="single-line" data-input="true">${attr[1]}</td>
         <td>
             <div class="td-action">
-                <span class="ico arrow-up" data-btn="up"></span>
-                <span class="ico arrow-down" data-btn="down"></span>
-                <span class="ico cross ico-remove" data-btn="remove"></span>
+                <span class="ico arrow-up" data-btn="up" data-id="${id}"></span>
+                <span class="ico arrow-down" data-btn="down" data-id="${id}"></span>
+                <span class="ico cross ico-remove" data-btn="remove" data-id="${id}"></span>
             </div>
         </td>`;
 
@@ -16,7 +16,7 @@ export default class AttributesTable {
         this.callback = null;
         this.body = document.getElementsByTagName('body')[0];
 
-        let modal = document.createElement('div');
+        const modal = document.createElement('div');
         modal.classList.add('bg-modal');
         modal.innerHTML = `
         <div class="modal-content">
@@ -42,6 +42,36 @@ export default class AttributesTable {
                 </tbody>
             </table>
         </div>`;
+
+        const listener = event => {
+            if (event.target.dataset.btn) {
+                const btnType = event.target.dataset.btn;
+                const id = +event.target.dataset.id;
+                const currentElement = document.querySelector(`tr[data-id="${id}"]`);
+
+                switch(btnType) {
+                    case 'up':
+                        const previousSibling = currentElement.previousSibling;
+                        
+                        if (previousSibling) {
+                            currentElement.parentElement.insertBefore(currentElement, previousSibling);
+                        }
+                        break;
+                    case 'down':
+                        const nextSibling = currentElement.nextSibling;
+                        
+                        if (nextSibling) {
+                            currentElement.parentElement.insertBefore(currentElement, nextSibling.nextSibling);
+                        }
+                        break;
+                    case 'remove':
+                        currentElement.remove();
+                        break;
+                }
+            }
+        }
+
+        modal.addEventListener('click', listener);
 
         this.body.appendChild(modal);
         this.table_body = document.getElementsByTagName('tbody')[0];
@@ -72,13 +102,14 @@ export default class AttributesTable {
     }
 
     tableCreate(nodeForEdit, callback) {
-        let attributes = nodeForEdit.attributes;
+        this.attributes = nodeForEdit.attributes;
         let new_tbody = document.createElement('tbody');
 
-        attributes.forEach((attr) => {
+        this.attributes.forEach((attr, index) => {
 
-            const html = this.attributeToHTML(attr);
+            const html = this.attributeToHTML(index, attr);
             const trElement = document.createElement('tr');
+            trElement.dataset.id = index;
             trElement.insertAdjacentHTML('afterbegin', html);
 
             new_tbody.appendChild(trElement);
@@ -107,8 +138,11 @@ export default class AttributesTable {
     }
 
     addRow() {
-        const html = this.attributeToHTML();
+        const html = this.attributeToHTML(this.attributes.length);
         const trElement = document.createElement('tr');
+        
+        trElement.dataset.id = this.attributes.length;
+        this.attributes.push(['', '']);
         trElement.insertAdjacentHTML('afterbegin', html);       
 
         this.table_body.appendChild(trElement);

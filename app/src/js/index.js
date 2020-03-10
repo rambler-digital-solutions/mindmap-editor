@@ -116,3 +116,6 @@ btnShowAttributes.addEventListener('click', () => {
     mmRender.toggleAttributes();
 });
 
+window.onresize = function() {
+    mmRender.init();
+};

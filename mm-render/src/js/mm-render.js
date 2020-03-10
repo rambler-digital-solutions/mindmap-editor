@@ -66,6 +66,8 @@ class MindMapRender {
      * Initialize the tree.
      */
     init() {
+        if(!this.treeData) return;
+        
         // Calculate total nodes, max label length
         this.totalNodes = 0;
         this.maxLabelLength = 0;
@@ -78,8 +80,8 @@ class MindMapRender {
         this.i = 0;
 
         // size of the diagram
-        this.viewerWidth = $(document).width();
-        this.viewerHeight = $(document).height();
+        this.viewerWidth = $(window).width();
+        this.viewerHeight = $(window).height();
 
         this.tree = d3.layout.tree()
             .separation(function (d) {

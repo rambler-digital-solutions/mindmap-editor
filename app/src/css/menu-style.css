@@ -18,13 +18,14 @@ body ul {
 
 .menu-bar {
   background: #333;
+  margin-bottom: 10px;
 }
 
 ul.menu-bar {
   font-family: FreeSans, sans-serif;
   margin: 0;
-  padding: 0 15px;
-  position: fixed;
+  padding: 0 50px;
+  position: relative;
   width: 100%;
   box-shadow:0 3px 15px rgba(0,0,0,.15);
 }

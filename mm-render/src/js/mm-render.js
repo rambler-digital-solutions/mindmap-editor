@@ -1,4 +1,5 @@
 import '../css/modal-style.css';
+import '../css/icons-sidebar.css';
 
 import * as $ from 'jquery';
 import Node from './node';
@@ -16,6 +17,7 @@ import centerNode from "./centerNode";
 import removeFlags from "./removeFlags";
 import updateMaxLabelLength from "./updateMaxLabelLength";
 import * as _ from "underscore";
+import IconsSidebar from './sidebar/iconsSidebar';
 
 /**
  * Default config.
@@ -37,6 +39,7 @@ class MindMapRender {
         this.defaultRoot = new Node(0, 'New node', null);
         this.reader = new Reader();
         this.attributesTable = new AttributesTable();
+        this.iconsSidebar = new IconsSidebar();
     }
 
     open(file = null) {

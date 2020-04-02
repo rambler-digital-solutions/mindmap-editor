@@ -27,6 +27,11 @@ body {
     font-family:sans-serif;
 }
 
+.node.node-selected text{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 .link {
     fill: none;
     stroke: #ccc;

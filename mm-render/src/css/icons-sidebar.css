@@ -1,0 +1,47 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -40px;
+    width: 40px;
+    height: 100%;
+    background-color: #E8E8E8	;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    transition: lef 0.25s ease-in-out, opacity 0.25s;
+    /* overflow: auto; */
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.sidebar__link {
+    z-index: 10;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E8E8E8	;
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px solid #DCDCDC	;
+    cursor: pointer;
+}
+
+.sidebar__link link__icon {
+    margin: 0 12px;
+}
+
+.sidebar__link:hover {
+    background: #DCDCDC	;
+}
+
+.sidebar-open {
+    left: 0;
+    opacity: 1;
+}

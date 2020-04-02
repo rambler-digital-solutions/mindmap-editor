@@ -116,6 +116,10 @@ btnShowAttributes.addEventListener('click', () => {
     mmRender.toggleAttributes();
 });
 
+document.getElementById('showIcons').addEventListener('click', () => {
+    document.querySelector('.sidebar').classList.toggle('sidebar-open');
+});
+
 window.onresize = function() {
     mmRender.init();
 };

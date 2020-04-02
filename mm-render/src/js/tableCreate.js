@@ -2,8 +2,8 @@ export default class AttributesTable {
 
     constructor() {
         this.attributeToHTML = (id, attr = ['', '']) => `
-        <td contenteditable class="single-line" data-input="true">${attr[0]}</td>
-        <td contenteditable class="single-line" data-input="true">${attr[1]}</td>
+        <td maxlength="10" contenteditable class="single-line" data-input="true">${attr[0]}</td>
+        <td maxlength="10" contenteditable class="single-line" data-input="true">${attr[1]}</td>
         <td>
             <div class="td-action">
                 <span class="ico arrow-up" data-btn="up" data-id="${id}"></span>
@@ -43,7 +43,7 @@ export default class AttributesTable {
             </table>
         </div>`;
 
-        const listener = event => {
+        const clickListener = event => {
             if (event.target.dataset.btn) {
                 const btnType = event.target.dataset.btn;
                 const id = +event.target.dataset.id;
@@ -66,12 +66,29 @@ export default class AttributesTable {
                         break;
                     case 'remove':
                         currentElement.remove();
+                        this.attributes_count--;
                         break;
                 }
             }
         }
 
-        modal.addEventListener('click', listener);
+        const keydownListener = event => {
+            if (event.target.dataset.input) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                }
+                else if (String.fromCharCode(event.keyCode).match(/(\w|\s)/g) && event.target.textContent.length > 10) {
+                    if(true) { 
+                        event.preventDefault();
+                    }
+
+                    recDescription.Document.InsertText(recDescription.Document.Selection.Start, Clipboard.GetText());
+                }
+            }
+        };
+
+        modal.addEventListener('click', clickListener);
+        modal.addEventListener('keydown', keydownListener);
 
         this.body.appendChild(modal);
         this.table_body = document.getElementsByTagName('tbody')[0];
@@ -92,16 +109,10 @@ export default class AttributesTable {
             this.callback();
             this.callback = null;
         });
-
-        // $('.input-note').on('keydown', function (e) {
-        //     if (e.keyCode === 13) {
-        //         e.preventDefault();
-        //         whenEnterPressed();
-        //     }
-        // });
     }
 
     tableCreate(nodeForEdit, callback) {
+        this.attributes_count = 0;
         this.attributes = nodeForEdit.attributes;
         let new_tbody = document.createElement('tbody');
 
@@ -113,6 +124,7 @@ export default class AttributesTable {
             trElement.insertAdjacentHTML('afterbegin', html);
 
             new_tbody.appendChild(trElement);
+            this.attributes_count++;
         });
 
         this.table_body.parentNode.replaceChild(new_tbody, this.table_body);
@@ -138,6 +150,10 @@ export default class AttributesTable {
     }
 
     addRow() {
+        if(this.attributes_count >= 6) {
+            return;
+        }
+
         const html = this.attributeToHTML(this.attributes.length);
         const trElement = document.createElement('tr');
         
@@ -146,5 +162,20 @@ export default class AttributesTable {
         trElement.insertAdjacentHTML('afterbegin', html);       
 
         this.table_body.appendChild(trElement);
+        this.attributes_count++;
+    }
+    
+    isCharacterKeyPress(evt) {
+        if (typeof evt.which == "undefined") {
+            // This is IE, which only fires keypress events for printable keys
+            return true;
+        } else if (typeof evt.which == "number" && evt.which > 0) {
+            // In other browsers except old versions of WebKit, evt.which is
+            // only greater than zero if the keypress is a printable key.
+            // We need to filter out backspace and ctrl/alt/meta key combinations
+            return !evt.ctrlKey && !evt.metaKey && !evt.altKey && evt.which != 8;
+        }
+        return false;
     }
 }
+

@@ -39,6 +39,9 @@ export default function update(source) {
             return d.id || (d.id = ++(this.i));
         });
 
+    // For distinct single and double clicks
+    let clickCount = 0;
+
     // Enter any new nodes at the parent's previous position.
     let nodeEnter = node.enter().append("g")
         .call(this.dragListener)
@@ -46,12 +49,37 @@ export default function update(source) {
         .attr("transform", function (d) {
             return "translate(" + source.y0 + "," + source.x0 + ")";
         })
-        .on('click', (d) => {
+        .on("click", (d) => { 
             if (d3.event.defaultPrevented) return; // click suppressed
-            d = this.toggleChildren(d);
-            this.updateMaxLabelLength();
-            this.update(d);
-            this.centerNode(d);
+
+            clickCount++;
+
+            if(clickCount === 1) {
+                window.singleClickTimer = setTimeout(() => {
+                    // a single click
+                    clickCount = 0;
+
+                    d = this.toggleChildren(d);
+                    this.updateMaxLabelLength();
+                    this.update(d);
+                    this.centerNode(d);
+                }, 300, this);
+            } else if(clickCount === 2) {
+                // a double click
+                clearTimeout(window.singleClickTimer);
+                clickCount = 0;
+                
+                if(!this.nodeForEdit || this.nodeForEdit.id != d.id) {
+                    if(this.nodeForEditElement) {
+                        this.nodeForEditElement.classList.remove('node-selected');
+                    }
+
+                    this.nodeForEdit = d;
+                    this.nodeForEditElement = d3.event.target.parentElement;
+
+                    d3.event.target.parentElement.classList.add("node-selected");
+                }   
+            }
         });
 
     nodeEnter.append("circle")

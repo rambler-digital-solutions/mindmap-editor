@@ -42,7 +42,7 @@ btnSaveJSON.addEventListener('click', () => {
     if (isOpen) {
         saveAsJson();
     } else {
-        alert('No thing to save!');
+        mmRender.showError('No thing to save!');
     }
 });
 
@@ -50,7 +50,7 @@ btnSaveXML.addEventListener('click', () => {
     if (isOpen) {
         // not implemented
     } else {
-        alert('No thing to save!');
+        mmRender.showError('No thing to save!');
     }
 });
 
@@ -78,7 +78,7 @@ btnOpen.addEventListener('change', () => {
         mmRender.open(selectedFile);
         toggleOpen();
     } catch (e) {
-        alert(e.message);
+        mmRender.showError(e.message);
     }
 });
 

@@ -1,9 +1,10 @@
 import '../css/modal-style.css';
 import '../css/icons-sidebar.css';
+import './toast/toast.css';
 
 import * as $ from 'jquery';
 import Node from './node';
-import IconsMap from './iconsMap';
+import IconsMap, { SpecialIconsMap } from './iconsMap';
 import * as d3 from 'd3';
 import Reader from "./reader";
 import getTreeData from "./getTreeData";
@@ -18,6 +19,8 @@ import removeFlags from "./removeFlags";
 import updateMaxLabelLength from "./updateMaxLabelLength";
 import * as _ from "underscore";
 import IconsSidebar from './sidebar/iconsSidebar';
+
+import Toast from './toast/toast';
 
 /**
  * Default config.
@@ -34,7 +37,7 @@ const defaults = {
 
 class MindMapRender {
 
-    constructor(config = []) {
+    constructor(config = []) {       
         this.setConfig(config);
         this.defaultRoot = new Node(0, 'New node', null);
         this.reader = new Reader();
@@ -45,14 +48,39 @@ class MindMapRender {
             const target = event.target.closest('.sidebar__link');
 
             if (target !== null && this.nodeForEdit) {
-                if(this.nodeForEdit.icons.length > 5) {
+                const targetValue = target.dataset.name;
+
+                if(!targetValue || this.nodeForEdit.icons.length > 5) {
                     return false;
                 }
 
-                this.nodeForEdit.icons.push(IconsMap[target.dataset.name]);
+                if(targetValue in SpecialIconsMap) {
+                    switch(targetValue) {
+                        case 'Remove Last Icon':
+                            this.nodeForEdit.icons.pop();
+                            break;
+                        case 'Remove All Icons':
+                            if(!Array.empty(this.nodeForEdit.icons)) {
+                                this.nodeForEdit.icons = [];
+                            }
+                            break;
+                    }
+                } else if(targetValue in IconsMap) {
+                    this.nodeForEdit.icons.push(IconsMap[targetValue]);
+                }
+
                 this.update(this.nodeForEdit);
             }
         });
+    }
+
+    showError(content) {
+        Toast.add({
+            text: content,
+            color: '#DC143C	',
+            autohide: true,
+            delay: 3000
+        }); 
     }
 
     open(file = null) {
@@ -222,7 +250,7 @@ class MindMapRender {
                             this.updateMaxLabelLength();
                             this.update(this.root);
                         } else {
-                            alert('Cannot delete the root!');
+                            this.showError('Cannot delete the root!');
                         }
                     }
                 },
@@ -231,13 +259,6 @@ class MindMapRender {
                     action: (el, d, i) => {
                         document.querySelector('.bg-modal').style.display = 'flex';
                         this.attributesTable.tableCreate(d, () => this.update(this.root));
-                    }
-                },
-                {
-                    title: 'Remove all icons',
-                    action: (el,d, i) => {
-                        d.icons = [];
-                        this.update(d);
                     }
                 },
             ];

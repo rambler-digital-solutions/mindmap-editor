@@ -10,6 +10,7 @@ export default class IconsSidebar {
     constructor() {
         const sidebar = document.createElement('div');
         sidebar.classList.add('sidebar');
+        sidebar.classList.add('sidebar-open');
 
         sidebar.innerHTML = Object.entries(IconsMap).map(([key, value]) => this.iconToHTML(key, value)).join('');
 

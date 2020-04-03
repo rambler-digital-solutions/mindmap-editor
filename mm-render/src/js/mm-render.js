@@ -40,6 +40,19 @@ class MindMapRender {
         this.reader = new Reader();
         this.attributesTable = new AttributesTable();
         this.iconsSidebar = new IconsSidebar();
+
+        document.addEventListener('click', (event) => {
+            const target = event.target.closest('.sidebar__link');
+
+            if (target !== null && this.nodeForEdit) {
+                if(this.nodeForEdit.icons.length > 5) {
+                    return false;
+                }
+
+                this.nodeForEdit.icons.push(IconsMap[target.dataset.name]);
+                this.update(this.nodeForEdit);
+            }
+        });
     }
 
     open(file = null) {
@@ -218,6 +231,13 @@ class MindMapRender {
                     action: (el, d, i) => {
                         document.querySelector('.bg-modal').style.display = 'flex';
                         this.attributesTable.tableCreate(d, () => this.update(this.root));
+                    }
+                },
+                {
+                    title: 'Remove all icons',
+                    action: (el,d, i) => {
+                        d.icons = [];
+                        this.update(d);
                     }
                 },
             ];

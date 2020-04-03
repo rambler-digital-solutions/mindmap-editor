@@ -42,6 +42,8 @@ export default function update(source) {
     // For distinct single and double clicks
     let clickCount = 0;
 
+    const nodeForEditId = this.nodeForEdit && this.nodeForEdit.id;
+
     // Enter any new nodes at the parent's previous position.
     let nodeEnter = node.enter().append("g")
         .call(this.dragListener)
@@ -79,6 +81,14 @@ export default function update(source) {
 
                     d3.event.target.parentElement.classList.add("node-selected");
                 }   
+            }
+        })
+        .each(function(d) {     
+            console.log(nodeForEditId, d.id);
+                   
+            if(nodeForEditId && nodeForEditId === d.id) {
+                console.log(d);
+                d3.select(this).attr('class', 'node node-selected');
             }
         });
 

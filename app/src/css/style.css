@@ -28,7 +28,6 @@ body {
 }
 
 .node.node-selected text{
-    text-decoration: underline;
     font-weight: bold;
 }
 

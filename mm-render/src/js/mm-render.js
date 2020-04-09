@@ -244,17 +244,20 @@ class MindMapRender {
                             });
                             if (nodeToRemove) {
                                 if (nodeToRemove[0].children != null || nodeToRemove[0]._children != null) {
-                                    this.confirm.show('Deleting this node will delete all its children too! Proceed?', () => {
+                                    this.confirm.show('Removing this node will remove all its children too! Proceed?', () => {
                                         d.parent.children = _.without(d.parent.children, nodeToRemove[0]);
                                         this.update(this.root);
+                                        this.updateMaxLabelLength();
+                                        this.update(this.root);
+                                        this.centerNode(d.parent);
                                     });
                                 } else {
                                     d.parent.children = _.without(d.parent.children, nodeToRemove[0]);
+                                    this.updateMaxLabelLength();
+                                    this.update(this.root);
+                                    this.centerNode(d.parent);
                                 }
-                            }
-
-                            this.updateMaxLabelLength();
-                            this.update(this.root);
+                            }                            
                         } else {
                             this.showError('Cannot delete the root!');
                         }

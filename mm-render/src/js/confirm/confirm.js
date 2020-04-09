@@ -6,17 +6,17 @@ export default class Confirm {
 
         const html = `
         <div id="freezeLayer" class="freeze-layer" style="display: none;"></div>
-        <div id="dialogCont" class="dlg-container">
-        <div class="dlg-header">Confirm</div>
-        <div id="dlgBody" class="dlg-body">Do you want to continue?</div>
-        <div class="dlg-footer">
+        <div id="dialogCont" class="cfm-dlg-container">
+        <div class="cfm-dlg-header">Confirm</div>
+        <div id="dlgBody" class="cfm-dlg-body">Do you want to continue?</div>
+        <div class="cfm-dlg-footer">
             <a class="confirm-ok" id="confirmDlgOK">OK</a>
             <a id="confirmDlgCancel">Cancel</a>
         </div>
         </div>
         `;
 
-        document.body.innerHTML += html;
+        document.body.insertAdjacentHTML('beforeend', html);
         document.getElementById('confirmDlgOK').addEventListener('click', () => {
             this.okay();
         });

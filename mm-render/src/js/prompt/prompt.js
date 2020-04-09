@@ -1,83 +1,73 @@
 import './prompt.css';
 
 export default class Prompt {
+
     constructor() {
-        const HTMLElementConfirm = `
-        <div class="prompt" id="prompt-confirm">
-        <div class="prompt-content">
-            <span class="close-btn" id="close-btn-confirm">&times;</span>
-            <p class="prompt-text" id="prompt-text-confirm"></p>
-            <button class="prompt-btn prompt-cancel" id="prompt-cancel">Cancel</button>
-            <button class="prompt-btn prompt-confirm" id="prompt-confirm">OK</button>
+        const html = `
+        <div id="promptFreezeLayer" class="freeze-layer" style="display: none;"></div>
+        <div id="promptDialog" class="pmt-dialog">
+            <div class="pmt-dlg-header">
+                Custom Prompt
+            </div>
+            <div class="pmt-dlg-body">
+                <div id="pmtDlgMessage"></div>
+                <input type="text" class="pmt-dlg-input" id="dialogInputEl">    
+            </div>
+            <div class="pmt-dlg-footer">
+                <a id="promptDlgOK">OK</a>
+                <a id="promptDlgCancel">Cancel</a>
+            </div>
         </div>
-        </div>`;
-
-        const HTMLElementInput = `
-        <div class="prompt" id="prompt-input">
-        <div class="prompt-content">
-            <span class="close-btn" id="close-btn-input">&times;</span>
-            <p class="prompt-text" id="prompt-text-input"></p>
-            <input class="prompt-input" type="text" id="input" name="input">
-            <button class="prompt-btn prompt-confirm" id="prompt-submit">OK</button>
-        </div>
-        </div>`;
+        `;
         
-        document.body.insertAdjacentHTML('beforeend', HTMLElementConfirm);
-        this.modalConfirm = document.getElementById('prompt-confirm');
+        document.body.insertAdjacentHTML('beforeend', html);
 
-        document.body.insertAdjacentHTML('beforeend', HTMLElementInput);
-        this.modalInput = document.getElementById('prompt-input');
+        this.dialogCont = document.getElementById('promptDialog');
+        this.dialogMessage = document.getElementById('pmtDlgMessage');
+        this.dlgInput = document.getElementById('dialogInputEl');
+        this.freezeLayer = document.getElementById('promptFreezeLayer');
 
-        this.setCloseHandlers();
-        this.setConfirmHandlers();
+        this.setHandlers();        
     }
 
-    showConfirm(text, resolveCallback) {
-        this.resolveCallback = resolveCallback;
-
-        document.getElementById('prompt-text-confirm').textContent = text;
-        document.getElementById('prompt-confirm').style.display = 'block';
+    setHandlers() {
+        document.getElementById('promptDlgOK').addEventListener('click', () => {
+            this.okay();
+        });
+        document.getElementById('promptDlgCancel').addEventListener('click', () => {
+            this.cancel();
+        });   
     }
 
-    showInput(text) {
-        document.getElementById('prompt-text-input').textContent = text;
-        document.getElementById('prompt-input').style.display = 'block';
+    show(msg, defaultMsg, callback) {
+        if(!defaultMsg) {
+            defaultMsg = '';
+        }
+
+        this.dialogCont.style.top = '10%';
+        this.dialogCont.style.opacity = 1;
+
+        this.dialogMessage.textContent = msg;
+        this.dlgInput.focus();
+        this.dlgInput.value = '';
+        this.callback = callback;
+
+        this.freezeLayer.style.display = '';
     }
 
-    setCloseHandlers() {
-        document.addEventListener('click', (event) => {            
-            if (event.target == this.modalInput) {
-                this.modalInput.style.display = 'none';
-            } else if(event.target == this.modalConfirm) {
-                this.modalConfirm.style.display = 'none';
-            }
-        });
-
-        document.getElementById('close-btn-input').addEventListener('click', () => {
-            this.modalInput.style.display = 'none';
-        });
-
-        document.getElementById('close-btn-confirm').addEventListener('click', () => {
-            this.closeModalConfirm();
-        });
+    okay() {       
+        this.callback(this.dlgInput.value); 
+        this.close();
     }
 
-    setConfirmHandlers() {
-        document.getElementById('prompt-cancel').addEventListener('click', () => {
-            this.closeModalConfirm();
-        });
-
-        document.getElementById('prompt-confirm').addEventListener('click', () => {
-            if(this.resolveCallback) { 
-                throw new Error('resolveCallback is undefined');
-            }
-            
-            this.resolveCallback();
-            this.closeModalConfirm();
-        });
+    cancel() {
+        this.callback(null); 
+        this.close();
     }
 
-    closeModalConfirm() {
-        this.modalConfirm.style.display = 'none';
+    close() {
+        this.dialogCont.style.top = '-30%';
+        this.dialogCont.style.opacity = 0;
+        this.freezeLayer.style.display = 'none';
     }
 }

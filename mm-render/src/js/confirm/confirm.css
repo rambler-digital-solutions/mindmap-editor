@@ -1,4 +1,4 @@
-.dlg-container {
+.cfm-dlg-container {
     position: absolute;
     left: 50%;
     top: -10%;
@@ -15,20 +15,20 @@
 
     z-index: 2;
 }
-.dlg-header {
+.cfm-dlg-header {
     padding: 10px;
     font-weight: bold;
     font-size: 1.2rem;
 }
-.dlg-body {
+.cfm-dlg-body {
     padding: 0 10px 15px;
     line-height: 30px;
 }
-.dlg-footer {
+.cfm-dlg-footer {
     text-align: center;
     padding-top: 5px;
 }
-.dlg-footer a {
+.cfm-dlg-footer a {
     display: inline-block;
     width: 100px;
     padding: 5px 0;
@@ -37,7 +37,7 @@
     background: #eee;
     cursor: pointer;
 }
-.dlg-footer a:active {
+.cfm-dlg-footer a:active {
     box-shadow: inset 2px 2px 4px #ccc;
     color: #666;
 }

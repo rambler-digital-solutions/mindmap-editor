@@ -196,40 +196,42 @@ class MindMapRender {
                 {
                     title: "Rename",
                     action: (elm, d, i) => {
-                        let result = prompt('Change the name of the node', d.name);
-                        if (result) {
-                            d.name = result;
-                            this.update(this.root);
-                            this.centerNode(d);
-                        }
+                        this.prompt.show('Change the name of the node', d.name, (result) => {
+                            if (result) {
+                                d.name = result;
+                                this.update(this.root);
+                                this.centerNode(d);
+                            }
+                        });
                     }
                 },
                 {
                     title: 'Add a node',
                     action: (elm, d, i) => {
-                        let newNodeName = prompt('Name of the new node', 'New Node');
-                        if (!newNodeName) {
-                            return;
-                        }
-                        let newNode = new Node(this.nodesCount++, newNodeName, d);
-                        let currentNode = this.tree.nodes(d);
-
-                        if (currentNode[0]._children != null) {
-                            currentNode[0]._children.push(newNode);
-                            d.children = d._children;
-                            d._children = null;
-                        } else if (currentNode[0].children != null && currentNode[0]._children == null) {
-                            currentNode[0].children.push(newNode);
-                        } else {
-                            currentNode[0].children = [];
-                            currentNode[0].children.push(newNode);
-                            currentNode[0].children.x = d.x0;
-                            currentNode[0].children.y = d.y0;
-                        }
-
-                        this.expand(currentNode);
-                        this.updateMaxLabelLength();
-                        this.update(this.root);
+                        this.prompt.show('Name of the new node', 'New Node', (newNodeName) => {
+                            if (!newNodeName) {
+                                return;
+                            }
+                            let newNode = new Node(this.nodesCount++, newNodeName, d);
+                            let currentNode = this.tree.nodes(d);
+    
+                            if (currentNode[0]._children != null) {
+                                currentNode[0]._children.push(newNode);
+                                d.children = d._children;
+                                d._children = null;
+                            } else if (currentNode[0].children != null && currentNode[0]._children == null) {
+                                currentNode[0].children.push(newNode);
+                            } else {
+                                currentNode[0].children = [];
+                                currentNode[0].children.push(newNode);
+                                currentNode[0].children.x = d.x0;
+                                currentNode[0].children.y = d.y0;
+                            }
+    
+                            this.expand(currentNode);
+                            this.updateMaxLabelLength();
+                            this.update(this.root);
+                        });                        
                     }
                 },
                 {

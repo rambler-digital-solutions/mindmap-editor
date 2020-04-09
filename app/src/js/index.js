@@ -22,20 +22,19 @@ const btnShowAttributes = document.getElementById('showAttributes');
 
 let isOpen = false;
 
-function submitClosing() {
+function submitClosing(callback) {
     if (isOpen) {
-        if (!mmRender.prompt('You will close the current file! Proceed?')) {
-            return false;
-        }
+        mmRender.confirm.show('You will close the current file! Proceed?', callback);
+    } else {
+        callback();
     }
-    return true;
 }
 
 btnNew.addEventListener('click', () => {
-    if (submitClosing()) {
+    submitClosing(() => {
         mmRender.open();
         toggleOpen();
-    }
+    });
 });
 
 btnSaveJSON.addEventListener('click', () => {
@@ -66,11 +65,13 @@ btnFocusRoot.addEventListener('click', () => {
     mmRender.focusRoot();
 });
 
-fileInput.onclick = function (e) {
-    if (!submitClosing()) {
-        e.preventDefault();
+btnOpen.onclick = function(e) {
+    if (isOpen) {
+        mmRender.confirm.show('You will close the current file! Proceed?', () => fileInput.click());
+    } else {
+        fileInput.click();
     }
-};
+}
 
 btnOpen.addEventListener('change', () => {
     let selectedFile = fileInput.files[0];

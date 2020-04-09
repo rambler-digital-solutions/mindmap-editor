@@ -1,0 +1,56 @@
+.dlg-container {
+    position: absolute;
+    left: 50%;
+    top: -10%;
+    transform: translateX(-50%) translateY(-50%);
+
+    width: 400px;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 1px 1px 5px 1px #999;
+    border-radius: 5px;
+    opacity: 0;
+    transition: all .1 linear .5s;
+    color: #666666;
+
+    z-index: 2;
+}
+.dlg-header {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.dlg-body {
+    padding: 0 10px 15px;
+    line-height: 30px;
+}
+.dlg-footer {
+    text-align: center;
+    padding-top: 5px;
+}
+.dlg-footer a {
+    display: inline-block;
+    width: 100px;
+    padding: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #eee;
+    cursor: pointer;
+}
+.dlg-footer a:active {
+    box-shadow: inset 2px 2px 4px #ccc;
+    color: #666;
+}
+.freeze-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.confirm-ok {
+    color: #2291C9;
+}

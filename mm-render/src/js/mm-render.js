@@ -22,6 +22,7 @@ import IconsSidebar from './sidebar/iconsSidebar';
 
 import Toast from './toast/toast';
 import Prompt from './prompt/prompt';
+import Confirm from './confirm/confirm';
 
 /**
  * Default config.
@@ -45,6 +46,7 @@ class MindMapRender {
         this.attributesTable = new AttributesTable();
         this.iconsSidebar = new IconsSidebar();
         this.prompt = new Prompt();
+        this.confirm = new Confirm();
 
         document.addEventListener('click', (event) => {
             const target = event.target.closest('.sidebar__link');
@@ -240,10 +242,10 @@ class MindMapRender {
                             });
                             if (nodeToRemove) {
                                 if (nodeToRemove[0].children != null || nodeToRemove[0]._children != null) {
-                                    if (confirm('Deleting this node will delete all its children too! Proceed?')) {
+                                    this.confirm.show('Deleting this node will delete all its children too! Proceed?', () => {
                                         d.parent.children = _.without(d.parent.children, nodeToRemove[0]);
                                         this.update(this.root);
-                                    }
+                                    });
                                 } else {
                                     d.parent.children = _.without(d.parent.children, nodeToRemove[0]);
                                 }

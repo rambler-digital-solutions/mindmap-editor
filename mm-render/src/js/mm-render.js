@@ -21,6 +21,7 @@ import * as _ from "underscore";
 import IconsSidebar from './sidebar/iconsSidebar';
 
 import Toast from './toast/toast';
+import Prompt from './prompt/prompt';
 
 /**
  * Default config.
@@ -43,6 +44,7 @@ class MindMapRender {
         this.reader = new Reader();
         this.attributesTable = new AttributesTable();
         this.iconsSidebar = new IconsSidebar();
+        this.prompt = new Prompt();
 
         document.addEventListener('click', (event) => {
             const target = event.target.closest('.sidebar__link');
@@ -60,7 +62,7 @@ class MindMapRender {
                             this.nodeForEdit.icons.pop();
                             break;
                         case 'Remove All Icons':
-                            if(!Array.empty(this.nodeForEdit.icons)) {
+                            if(this.nodeForEdit.icons.length) {
                                 this.nodeForEdit.icons = [];
                             }
                             break;

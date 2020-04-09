@@ -83,11 +83,8 @@ export default function update(source) {
                 }   
             }
         })
-        .each(function(d) {     
-            console.log(nodeForEditId, d.id);
-                   
+        .each(function(d) {                        
             if(nodeForEditId && nodeForEditId === d.id) {
-                console.log(d);
                 d3.select(this).attr('class', 'node node-selected');
             }
         });

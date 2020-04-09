@@ -47,7 +47,7 @@ Toast.prototype = {
 
         this.element.classList.add('visually-hidden');
 
-        setTimeout(function() {
+        setTimeout(() => {
             this.element.classList.remove('toast_show');
             document.dispatchEvent(event);
         }, 200);

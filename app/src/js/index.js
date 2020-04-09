@@ -24,7 +24,7 @@ let isOpen = false;
 
 function submitClosing() {
     if (isOpen) {
-        if (!confirm('You will close the current file! Proceed?')) {
+        if (!mmRender.prompt('You will close the current file! Proceed?')) {
             return false;
         }
     }

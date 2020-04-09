@@ -1,0 +1,123 @@
+.prompt {
+    display: none;
+    position: fixed;
+    padding-top: 16px;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-color: rgba(0, 0, 0, .5);
+    font-size: 16px;
+    z-index: 1000;
+    user-select: none; 
+}
+
+.prompt-content {
+    position: relative;
+    height: 200px;
+    width: 500px;
+    margin: auto;
+    padding: 10px;
+
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.close-btn {
+    float: right;
+    color: lightgray;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 5px;
+
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: darkgray;
+}
+
+.prompt-text {
+    margin-left: 10px;
+}
+
+.prompt-text {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.prompt-btn {
+    position: absolute;
+    bottom: 5px;
+    margin: 0 auto 10px;
+    left: 0;
+    right: 0;
+    border: none;
+    padding: 14px 0;
+    min-width: 130px;
+    transition: background-color .2s;
+    text-align: center;
+
+    font: inherit;
+    border-radius: 5px;
+    vertical-align: middle;
+    color: #fff;
+
+    /* margin-top: 50px; */
+    outline: none;
+    cursor: pointer;
+}
+
+.prompt-confirm {
+    background-color: #81c784;
+}
+
+.prompt-confirm:hover {
+    background-color: #66bb6a;
+}
+
+.prompt-cancel {
+    background-color: #e57373;
+}
+
+.prompt-cancel:hover {
+    background-color: #ef5350;
+}
+
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.prompt-input {
+    width: 60%;
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 5px;
+    outline: none;
+}

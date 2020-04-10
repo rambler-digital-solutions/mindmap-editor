@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import iconsMap from './icons/iconsMap';
 
 export default function update(source) {
     // Compute the new height, function counts total children of root node and sets tree height accordingly.
@@ -110,7 +111,7 @@ export default function update(source) {
             return d.children || d._children ? "end" : "start";
         })
         .text((d) => {
-            return this.getStatus(d) + d.name + ' ' + d.icons.join('');
+            return this.getStatus(d) + d.name + ' ' + d.icons.map(icon => iconsMap[icon]).join('');
         })
         .style("fill-opacity", 0)
         .on('contextmenu', d3.contextMenu(this.menu));
@@ -157,7 +158,7 @@ export default function update(source) {
             return d.children || d._children ? "end" : "start";
         })
         .text((d) => {
-            return this.getStatus(d) + d.name + ' ' + d.icons.join('');
+            return this.getStatus(d) + d.name + ' ' + d.icons.map(icon => iconsMap[icon]).join('');
         });
 
     node.select('.node g text')

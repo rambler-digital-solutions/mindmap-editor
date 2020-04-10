@@ -4,7 +4,7 @@ import './toast/toast.css';
 
 import * as $ from 'jquery';
 import Node from './node';
-import IconsMap, { SpecialIconsMap } from './iconsMap';
+import IconsMap, { SpecialIconsMap } from './icons/iconsMap';
 import * as d3 from 'd3';
 import Reader from "./reader";
 import getTreeData from "./getTreeData";
@@ -74,7 +74,7 @@ class MindMapRender {
                             break;
                     }
                 } else if(targetValue in IconsMap) {
-                    this.nodeForEdit.icons.push(IconsMap[targetValue]);
+                    this.nodeForEdit.icons.push(targetValue);
                 }
 
                 this.update(this.nodeForEdit);

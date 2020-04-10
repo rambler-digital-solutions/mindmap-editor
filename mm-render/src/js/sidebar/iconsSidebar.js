@@ -1,6 +1,6 @@
 import '../../css/icons-sidebar.css';
-import IconsMap from '../iconsMap';
-import {SpecialIconsMap} from '../iconsMap';
+import IconsMap from '../icons/iconsMap';
+import {SpecialIconsMap} from '../icons/iconsMap';
 
 export default class IconsSidebar {
 

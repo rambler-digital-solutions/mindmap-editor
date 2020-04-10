@@ -3,7 +3,7 @@ import Node from './node';
 import * as _ from "underscore";
 export {readTextFile, arrayMapping, arrayToJSON, XMLToArray, nodesCount}; // список экспортируемых переменных
 import * as he from 'he';
-
+import {fromFreemind} from './icons/freemindIconsMap';
 let mapIcons = new Map(
     [
         ['go', '🐢'],
@@ -111,8 +111,8 @@ function objToJSON(tagArray, id, parent) {
                 let tag = tagArray[tagArray[id].children[i] - 1];
                 switch (tag.type) {
                     case 'icon':
-                        node.icons.push(mapIcons.get(tag.attr['BUILTIN']));
-                        break;
+                        node.icons.push(fromFreemind[tag.attr['BUILTIN']]);
+                        break;  
                     case 'attribute':
                         node.attributes.push([tag.attr['NAME'], tag.attr['VALUE']]);
                         break;

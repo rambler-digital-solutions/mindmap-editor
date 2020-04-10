@@ -24,6 +24,8 @@ import Toast from './toast/toast';
 import Prompt from './prompt/prompt';
 import Confirm from './confirm/confirm';
 
+import Exporter from './files/exporter';
+
 /**
  * Default config.
  * @type {{duration: number, panSpeed: number, panBoundary: number}}
@@ -47,6 +49,8 @@ class MindMapRender {
         this.iconsSidebar = new IconsSidebar();
         this.prompt = new Prompt();
         this.confirm = new Confirm();
+
+        this.exporter = new Exporter();
 
         document.addEventListener('click', (event) => {
             const target = event.target.closest('.sidebar__link');
@@ -365,6 +369,10 @@ class MindMapRender {
         this.expandAll();
         this.updateMaxLabelLength();
         this.update(this.root);
+    }
+
+    exportFreemind() {
+        this.exporter.exportFreemind(this.getTreeData());
     }
 }
 

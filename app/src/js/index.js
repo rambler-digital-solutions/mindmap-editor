@@ -47,7 +47,7 @@ btnSaveJSON.addEventListener('click', () => {
 
 btnSaveXML.addEventListener('click', () => {
     if (isOpen) {
-        // not implemented
+        mmRender.exportFreemind();
     } else {
         mmRender.showError('No thing to save!');
     }

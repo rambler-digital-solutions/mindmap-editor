@@ -1,7 +1,8 @@
 import ParseAttributes from "./parseAttributes";
 import Node from './node';
-
+import * as _ from "underscore";
 export {readTextFile, arrayMapping, arrayToJSON, XMLToArray, nodesCount}; // список экспортируемых переменных
+import * as he from 'he';
 
 let mapIcons = new Map(
     [
@@ -96,13 +97,15 @@ function arrayMapping(tagArray, impNodes, isAttributes) {
  * @param {array} parent - id of node's parent.
  */
 function objToJSON(tagArray, id, parent) {
-    let node = new Node(nodesCount++, tagArray[id].attr['TEXT'], parent === false ? 'null' : parent.name);  // we create an empty object and save there all the relevant information about the node
+    const nodeName = tagArray[id].attr['TEXT'] && he.decode(tagArray[id].attr['TEXT']);
+    const node = new Node(nodesCount++, nodeName, parent === false ? 'null' : parent.name);  // we create an empty object and save there all the relevant information about the node
 
     let i = 0;
 
     while (i < tagArray[id].children.length) {  // for all children of the node we do the same
         if (tagArray[tagArray[id].children[i] - 1].type === 'node' || node.parent === "null") {
             node.children.push(objToJSON(tagArray, tagArray[id].children[i] - 1, node));
+            i++;
         } else {
             while (i < tagArray[id].children.length && tagArray[tagArray[id].children[i] - 1].type !== 'node') {
                 let tag = tagArray[tagArray[id].children[i] - 1];
@@ -117,7 +120,6 @@ function objToJSON(tagArray, id, parent) {
                 i++;
             }
         }
-        i++;
     }
     return node;
 }
